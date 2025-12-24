@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alexandre Cailleau — Portfolio</title>
+  <meta name="description" content="Portfolio d'Alexandre Cailleau — étudiant au CESI Orléans. Orientation : alternance en sécurisation des données ; sinon 4e année Data Science & IA." />
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#10192a;
+      --text:#e9eef7;
+      --muted:#a9b4c7;
+      --line:rgba(255,255,255,.10);
+      --accent:#6aa7ff;
+      --accent2:#7df0c5;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --max: 1080px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(106,167,255,.18), transparent 55%),
+                  radial-gradient(900px 600px at 80% 20%, rgba(125,240,197,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px;}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,15,23,.85), rgba(11,15,23,.35));
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max); margin:0 auto; padding:14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .brand strong{font-size:14px; letter-spacing:.4px}
+    .brand span{font-size:12px; color:var(--muted)}
+    nav{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;
+      font-size:13px;
+    }
+    nav a{
+      text-decoration:none;
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:999px;
+      color:var(--muted);
+      transition:.15s ease;
+    }
+    nav a:hover{
+      color:var(--text);
+      border-color:var(--line);
+      background:rgba(255,255,255,.04);
+    }
+
+    .hero{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .inner{padding:18px}
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      background: rgba(255,255,255,.03);
+    }
+    .kdot{
+      width:8px; height:8px; border-radius:50%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow:0 0 0 4px rgba(106,167,255,.12);
+    }
+    h1{
+      margin:12px 0 10px;
+      font-size:34px;
+      line-height:1.1;
+      letter-spacing:-.4px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      max-width:64ch;
+    }
+    .cta{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      text-decoration:none;
+      font-size:14px;
+      transition:.15s ease;
+      min-width: 170px;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(106,167,255,.45);
+      background: rgba(106,167,255,.10);
+    }
+    .btn.primary{
+      border-color: rgba(125,240,197,.45);
+      background: rgba(125,240,197,.10);
+    }
+    .btn.primary:hover{
+      border-color: rgba(125,240,197,.75);
+      background: rgba(125,240,197,.14);
+    }
+
+    .sidegrid{
+      display:grid; gap:16px;
+      grid-template-columns:1fr;
+    }
+    .profile{
+      display:flex; gap:14px; align-items:center;
+    }
+    .avatar{
+      width:54px; height:54px; border-radius:16px;
+      background: linear-gradient(135deg, rgba(106,167,255,.35), rgba(125,240,197,.25));
+      border:1px solid var(--line);
+      display:grid; place-items:center;
+      font-family:var(--mono);
+      color:rgba(233,238,247,.9);
+      font-size:16px;
+      letter-spacing:.5px;
+      flex: 0 0 auto;
+    }
+    .profile .meta{display:flex; flex-direction:column; gap:2px}
+    .profile .meta strong{font-size:14px}
+    .profile .meta span{font-size:12px; color:var(--muted)}
+    .list{
+      display:grid; gap:10px;
+      margin-top:10px;
+    }
+    .item{
+      display:flex; gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+    }
+    .icon{
+      width:34px; height:34px; border-radius:12px;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      display:grid; place-items:center;
+      flex:0 0 auto;
+      font-family:var(--mono);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .item .txt{display:flex; flex-direction:column; gap:2px}
+    .item .txt b{font-size:13px}
+    .item .txt span{font-size:12px; color:var(--muted)}
+
+    .section{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 900px){
+      .section{grid-template-columns:1fr}
+    }
+    .section h2{
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+    .chips{
+      display:flex; flex-wrap:wrap; gap:8px;
+    }
+    .chip{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+    .timeline{display:grid; gap:10px}
+    .trow{
+      padding:12px;
+      border-radius:var(--radius2);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+    .trow .head{
+      display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px;
+      align-items:baseline;
+    }
+    .trow .head strong{font-size:13px}
+    .trow .head span{font-size:12px; color:var(--muted)}
+    .trow ul{margin:8px 0 0 18px; color:var(--muted); font-size:13px}
+    .trow li{margin:6px 0}
+    .footer{
+      margin-top:22px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .smallmono{font-family:var(--mono)}
+    .note{
+      padding:12px;
+      border-radius:var(--radius2);
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <strong>Alexandre Cailleau</strong>
+        <span>Étudiant — CESI Orléans (école d’ingénieur)</span>
+      </div>
+      <nav>
+        <a href="#profil">Profil</a>
+        <a href="#competences">Compétences</a>
+        <a href="#projets">Projets</a>
+        <a href="#experience">Expériences</a>
+        <a href="#formation">Formation</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="profil">
+      <article class="card">
+        <div class="inner">
+          <div class="kicker"><span class="kdot"></span> Portfolio</div>
+          <h1>Data & Sécurité : je construis des bases propres, des requêtes solides, et des livrables clairs.</h1>
+          <p class="subtitle">
+            Étudiant au CESI Orléans (école d’ingénieur). Je m’oriente vers une <b>alternance en sécurisation de données</b>.
+            Si je ne trouve pas cette alternance, je vise une <b>4e année en Data Science & IA</b>.
+          </p>
+
+          <div class="cta">
+            <a class="btn primary" href="#contact">Me contacter</a>
+            <a class="btn" href="#projets">Voir mes projets</a>
+          </div>
+
+          <div style="height:14px"></div>
+          <div class="note">
+            <b>Ce site reprend uniquement les informations présentes sur le CV</b> (expériences, formation, compétences, langues, centres d’intérêt),
+            et ajoute seulement ton objectif d’orientation (sécurisation des données / Data Science & IA).
+          </div>
+        </div>
+      </article>
+
+      <aside class="sidegrid">
+        <div class="card">
+          <div class="inner">
+            <div class="profile">
+              <div class="avatar">AC</div>
+              <div class="meta">
+                <strong>Alexandre Cailleau</strong>
+                <span>Orléans • Permis B</span>
+              </div>
+            </div>
+
+            <div class="list" aria-label="Coordonnées">
+              <div class="item">
+                <div class="icon">TEL</div>
+                <div class="txt">
+                  <b>Téléphone</b>
+                  <span>06 62 14 11 88</span>
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon">@</div>
+                <div class="txt">
+                  <b>Email</b>
+                  <span>a.cailleau072006@gmail.com</span>
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon">LOC</div>
+                <div class="txt">
+                  <b>Adresse</b>
+                  <span>2 rue de Montargis, 45100 Orléans</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h2>Qualités</h2>
+            <div class="chips">
+              <span class="chip">Assidu</span>
+              <span class="chip">Rigoureux</span>
+              <span class="chip">Motivé</span>
+              <span class="chip">Sens du relationnel</span>
+              <span class="chip">Persévérant</span>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <h2>Langues</h2>
+            <div class="chips">
+              <span class="chip">Français (natif)</span>
+              <span class="chip">Anglais (B1+)</span>
+              <span class="chip">Espagnol (B1)</span>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <h2>Centres d’intérêt</h2>
+            <div class="chips">
+              <span class="chip">Informatique</span>
+              <span class="chip">Gaming</span>
+              <span class="chip">Pâtisserie / Cuisine</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- SECTIONS 2 COL -->
+    <section class="section">
+      <!-- Compétences -->
+      <article class="card" id="competences">
+        <div class="inner">
+          <h2>Compétences</h2>
+          <div class="chips">
+            <span class="chip">Python</span>
+            <span class="chip">SQL</span>
+            <span class="chip">Qualité rédactionnelle</span>
+            <span class="chip">Conception & modélisation de SI (MCD)</span>
+            <span class="chip">Requêtes SQL complexes</span>
+            <span class="chip">Arbres algébriques (analyse de requêtes)</span>
+            <span class="chip">Algorithmique</span>
+            <span class="chip">C</span>
+            <span class="chip">Arduino</span>
+            <span class="chip">Analyse & traitement de signaux (Python)</span>
+            <span class="chip">Modélisation numérique de signaux</span>
+            <span class="chip">Simulation numérique (mécanique)</span>
+            <span class="chip">Excel avancé (analyse / cas pratiques)</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Objectif -->
+      <article class="card">
+        <div class="inner">
+          <h2>Objectif</h2>
+          <p class="subtitle" style="margin-top:0">
+            Mon axe principal : <b>alternance en sécurisation de données</b> (qualité, fiabilité, cohérence, exploitation).
+            <br />
+            Plan B si besoin : <b>m’orienter en 4e année vers la Data Science & l’IA</b>.
+          </p>
+          <div style="height:10px"></div>
+          <div class="note">
+            Je garde cet objectif court et clair : ça évite de “se vendre” sur 10 métiers à la fois, tout en assumant une trajectoire réaliste.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Projets -->
+    <section class="section">
+      <article class="card" id="projets">
+        <div class="inner">
+          <h2>Projets (études)</h2>
+          <div class="timeline">
+            <div class="trow">
+              <div class="head">
+                <strong>Projet de modélisation base de données</strong>
+                <span>2024–2025</span>
+              </div>
+              <ul>
+                <li>Conception et modélisation de systèmes d’information et de bases de données (MCD).</li>
+                <li>Élaboration de modèles conceptuels des données pour différents scénarios.</li>
+                <li>Développement et optimisation de requêtes SQL complexes.</li>
+                <li>Manipulation et interprétation d’arbres algébriques pour analyser les requêtes.</li>
+                <li>Rédaction de livrables techniques et restitution de projets en équipe.</li>
+              </ul>
+            </div>
+
+            <div class="trow">
+              <div class="head">
+                <strong>Algorithmique, Programmation & Sciences de l’Ingénieur</strong>
+                <span>Projets (CESI)</span>
+              </div>
+              <ul>
+                <li>Conception et mise en œuvre d’algorithmes (études de cas et applications pratiques).</li>
+                <li>Développement de programmes en langage C et Arduino (projets électroniques).</li>
+                <li>Programmes embarqués sur Arduino + production de livrables techniques.</li>
+                <li>Analyse et traitement de signaux avec Python ; codage de l’information et modélisation numérique.</li>
+                <li>Simulation numérique appliquée à la mécanique ; Excel avancé pour l’analyse et la résolution de cas pratiques.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" id="experience">
+        <div class="inner">
+          <h2>Expériences</h2>
+          <div class="timeline">
+            <div class="trow">
+              <div class="head">
+                <strong>Vendeur de rosiers (week-ends) — E.A.R.L pépinière Cailleau</strong>
+                <span>Mars 2024 → Juin 2024 • Tours (Marché aux Fleurs)</span>
+              </div>
+              <ul>
+                <li>Accueil des clients et conseil sur les variétés de rosiers.</li>
+                <li>Gestion des stocks et mise en place des présentations sur le stand.</li>
+                <li>Encaissement et gestion des paiements.</li>
+                <li>Travail en équipe et sens du service client.</li>
+              </ul>
+            </div>
+
+            <div class="trow">
+              <div class="head">
+                <strong>Manutentionnaire — Somycel</strong>
+                <span>Expérience professionnelle</span>
+              </div>
+            </div>
+
+            <div class="trow">
+              <div class="head">
+                <strong>Déménageur — JUMEAU CHARTRES / Les déménageurs Bretons</strong>
+                <span>Expérience professionnelle</span>
+              </div>
+            </div>
+
+            <div class="trow">
+              <div class="head">
+                <strong>Bénévole — Association Ensemble Pour Vous</strong>
+                <span>Orléans</span>
+              </div>
+              <ul>
+                <li>Participation aux maraudes et à la collecte/distribution de vêtements (premiers mardis du mois).</li>
+                <li>Soutien aux personnes en difficulté et contribution à l’organisation des actions solidaires.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Formation -->
+    <section class="section">
+      <article class="card" id="formation">
+        <div class="inner">
+          <h2>Formation</h2>
+          <div class="timeline">
+            <div class="trow">
+              <div class="head">
+                <strong>École d’ingénieur — CESI, Orléans</strong>
+                <span>2024–2029</span>
+              </div>
+            </div>
+
+            <div class="trow">
+              <div class="head">
+                <strong>Baccalauréat Général (spécialités Mathématiques, Physique-Chimie)</strong>
+                <span>Lycée Saint-Grégoire, Tours • 2021–2024</span>
+              </div>
+              <ul>
+                <li>Mention Assez Bien (juillet 2024).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <h2>Ce que j’apporte (concret)</h2>
+          <div class="timeline">
+            <div class="trow">
+              <div class="head">
+                <strong>Tech</strong>
+                <span class="smallmono">Python • SQL • C • Arduino</span>
+              </div>
+              <ul>
+                <li>Je modélise proprement (MCD), je requête (SQL), je documente (livrables).</li>
+              </ul>
+            </div>
+            <div class="trow">
+              <div class="head">
+                <strong>Méthode</strong>
+                <span class="smallmono">Rigueur • rédaction • restitution</span>
+              </div>
+              <ul>
+                <li>Je sais formaliser, expliquer et rendre un travail exploitable.</li>
+              </ul>
+            </div>
+            <div class="trow">
+              <div class="head">
+                <strong>Terrain</strong>
+                <span class="smallmono">Client • logistique • associatif</span>
+              </div>
+              <ul>
+                <li>Contact client + rythme opérationnel + esprit d’équipe.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <article class="card">
+        <div class="inner">
+          <h2>Contact</h2>
+          <p class="subtitle" style="margin-top:0">
+            Tu peux me contacter directement :
+          </p>
+          <div class="list">
+            <div class="item">
+              <div class="icon">@</div>
+              <div class="txt">
+                <b>Email</b>
+                <span><a href="mailto:a.cailleau072006@gmail.com">a.cailleau072006@gmail.com</a></span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="icon">TEL</div>
+              <div class="txt">
+                <b>Téléphone</b>
+                <span><a href="tel:+33662141188">06 62 14 11 88</a></span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="icon">LOC</div>
+              <div class="txt">
+                <b>Localisation</b>
+                <span>Orléans (45100)</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="icon">CAR</div>
+              <div class="txt">
+                <b>Mobilité</b>
+                <span>Permis B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <h2>Mini pitch (copier-coller)</h2>
+          <div class="note">
+            Je suis étudiant au CESI Orléans (école d’ingénieur). J’ai travaillé sur des projets de modélisation de bases de données (MCD), de requêtes SQL complexes,
+            ainsi que des projets d’algorithmique et de programmation (C, Arduino, Python), avec une vraie attention à la qualité des livrables.
+            Je souhaite m’orienter vers une alternance en sécurisation de données ; à défaut, je vise une spécialisation en Data Science & IA en 4e année.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="footer">
+      <span>© <span id="year"></span> Alexandre Cailleau — Portfolio</span>
+      <span class="smallmono">HTML/CSS • One-page</span>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
