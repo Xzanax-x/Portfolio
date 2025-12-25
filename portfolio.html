@@ -57,7 +57,6 @@
       cursor:none;
     }
 
-    /* Scrollbar (optionnel, mais propre) */
     ::-webkit-scrollbar{width:10px}
     ::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
     ::-webkit-scrollbar-thumb{
@@ -69,7 +68,6 @@
     a{color:inherit}
     .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px;}
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(14px);
@@ -103,7 +101,6 @@
       background: rgba(98,182,255,.08);
     }
 
-    /* Layout */
     .hero{
       margin-top:22px;
       display:grid;
@@ -115,7 +112,6 @@
       .hero{grid-template-columns:1fr}
     }
 
-    /* Cards (glass wow) */
     .card{
       position:relative;
       background:
@@ -155,7 +151,6 @@
     .card:hover::after{opacity:.9}
     .card .inner{padding:18px; position:relative}
 
-    /* Kicker */
     .kicker{
       display:inline-flex; gap:10px; align-items:center;
       padding:6px 10px;
@@ -176,8 +171,6 @@
       font-size:34px;
       line-height:1.1;
       letter-spacing:-.4px;
-
-      /* petit glow sur le titre */
       text-shadow: 0 10px 40px rgba(98,182,255,.14);
     }
     .subtitle{
@@ -187,7 +180,6 @@
       max-width:64ch;
     }
 
-    /* Buttons */
     .cta{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
     .btn{
       display:inline-flex; align-items:center; justify-content:center; gap:10px;
@@ -229,7 +221,6 @@
       background: linear-gradient(135deg, rgba(98,182,255,.22), rgba(255,255,255,.07));
     }
 
-    /* Side */
     .sidegrid{display:grid; gap:16px; grid-template-columns:1fr;}
     .profile{display:flex; gap:14px; align-items:center;}
     .avatar{
@@ -275,7 +266,6 @@
     .item .txt b{font-size:13px}
     .item .txt span{font-size:12px; color:var(--muted)}
 
-    /* Sections */
     .section{
       margin-top:18px;
       display:grid;
@@ -287,7 +277,6 @@
     }
     .section h2{margin:0 0 10px; font-size:16px; letter-spacing:.2px;}
 
-    /* Chips */
     .chips{display:flex; flex-wrap:wrap; gap:8px;}
     .chip{
       font-size:12px;
@@ -304,7 +293,6 @@
       transform: translateY(-1px);
     }
 
-    /* Timeline */
     .timeline{display:grid; gap:10px}
     .trow{
       padding:12px;
@@ -327,7 +315,6 @@
     .trow ul{margin:8px 0 0 18px; color:var(--muted); font-size:13px}
     .trow li{margin:6px 0}
 
-    /* Note */
     .note{
       padding:12px;
       border-radius:var(--radius2);
@@ -337,7 +324,6 @@
       font-size:13px;
     }
 
-    /* Footer */
     .footer{
       margin-top:22px;
       padding-top:18px;
@@ -352,7 +338,6 @@
     }
     .smallmono{font-family:var(--mono)}
 
-    /* --- WOW: animations "sans JS lourd" --- */
     @media (prefers-reduced-motion: no-preference){
       .reveal{
         opacity:0;
@@ -367,19 +352,41 @@
       }
     }
 
-    /* --- Custom cursor + powder trail --- */
+    /* --- Cursor triangle + trail --- */
     .cursor{
       position:fixed;
       left:0; top:0;
-      width:18px; height:18px;
-      border-radius:50%;
+      width:0; height:0;
       pointer-events:none;
       z-index:9999;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(98,182,255,.55) 45%, rgba(98,182,255,.20) 70%, transparent 72%);
-      box-shadow: 0 0 18px rgba(98,182,255,.35), 0 0 60px rgba(98,182,255,.18);
+      transform: translate(-50%, -50%) rotate(18deg);
       mix-blend-mode: screen;
+
+      /* triangle */
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 18px solid rgba(98,182,255,.85);
+
+      /* glow */
+      filter: drop-shadow(0 0 10px rgba(98,182,255,.55))
+              drop-shadow(0 0 32px rgba(98,182,255,.22));
     }
+
+    .cursor::after{
+      content:"";
+      position:absolute;
+      left:-10px; top:-2px;
+      width:0; height:0;
+
+      /* inner highlight triangle */
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 18px solid rgba(255,255,255,.35);
+      transform: translateY(2px) scale(.78);
+      filter: blur(.2px);
+      opacity:.9;
+    }
+
     .cursor-ring{
       position:fixed;
       left:0; top:0;
@@ -388,7 +395,7 @@
       pointer-events:none;
       z-index:9998;
       transform: translate(-50%, -50%);
-      border:1px solid rgba(98,182,255,.25);
+      border:1px solid rgba(98,182,255,.22);
       box-shadow: 0 0 40px rgba(98,182,255,.10);
       backdrop-filter: blur(2px);
       mix-blend-mode: screen;
@@ -419,7 +426,6 @@
       100%{transform: translate(-50%, -50%) scale(2.4); opacity:0; filter: blur(1px)}
     }
 
-    /* Pointer over clickable elements */
     a, button, .btn, nav a, .chip { cursor:none; }
   </style>
 </head>
@@ -541,7 +547,6 @@
       </aside>
     </section>
 
-    <!-- SECTIONS 2 COL -->
     <section class="section">
       <article class="card reveal" id="competences">
         <div class="inner">
@@ -580,7 +585,6 @@
       </article>
     </section>
 
-    <!-- Projets -->
     <section class="section">
       <article class="card reveal" id="projets">
         <div class="inner">
@@ -663,7 +667,6 @@
       </article>
     </section>
 
-    <!-- Formation -->
     <section class="section">
       <article class="card reveal" id="formation">
         <div class="inner">
@@ -725,7 +728,6 @@
       </article>
     </section>
 
-    <!-- Contact -->
     <section class="section" id="contact">
       <article class="card reveal">
         <div class="inner">
@@ -766,7 +768,8 @@
 
       <article class="card reveal">
         <div class="inner">
-          <h2>Mini pitch (copier-coller)</h2>
+          <!-- ✅ ICI: on enlève "(copier-coller)" -->
+          <h2>Mini pitch</h2>
           <div class="note">
             Je suis étudiant au CESI Orléans (école d’ingénieur). J’ai travaillé sur des projets de modélisation de bases de données (MCD), de requêtes SQL complexes,
             ainsi que des projets d’algorithmique et de programmation (C, Arduino, Python), avec une vraie attention à la qualité des livrables.
@@ -828,12 +831,10 @@
       dot.style.left = x + "px";
       dot.style.top = y + "px";
 
-      // petite traînée
       if (Math.random() < 0.55) spawnSpark(x, y);
     }, { passive:true });
 
     function raf(){
-      // ring smoothing
       rx += (x - rx) * 0.12;
       ry += (y - ry) * 0.12;
       ring.style.left = rx + "px";
@@ -842,7 +843,6 @@
     }
     raf();
 
-    // Cursor state on hover clickable
     document.addEventListener("mouseover", (e) => {
       if (e.target.closest(clickableSel)) root.classList.add("cursor--active");
     });
@@ -850,7 +850,7 @@
       if (e.target.closest(clickableSel)) root.classList.remove("cursor--active");
     });
 
-    // On mobile, keep default cursor behavior (no cursor)
+    // On mobile
     if (matchMedia("(pointer: coarse)").matches) {
       dot.style.display = "none";
       ring.style.display = "none";
