@@ -352,58 +352,70 @@
       }
     }
 
-    /* --- Cursor triangle + trail --- */
+    /* --- Cursor: gaming arrow + blue tail (NO ring) --- */
     .cursor{
       position:fixed;
       left:0; top:0;
       width:0; height:0;
       pointer-events:none;
       z-index:9999;
-      transform: translate(-50%, -50%) rotate(18deg);
+      transform: translate(-50%, -50%) rotate(0deg);
       mix-blend-mode: screen;
 
-      /* triangle */
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid rgba(98,182,255,.85);
+      /* thin arrow */
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 16px solid rgba(98,182,255,.95);
 
-      /* glow */
-      filter: drop-shadow(0 0 10px rgba(98,182,255,.55))
-              drop-shadow(0 0 32px rgba(98,182,255,.22));
+      filter:
+        drop-shadow(0 0 10px rgba(98,182,255,.55))
+        drop-shadow(0 0 28px rgba(98,182,255,.18));
     }
 
     .cursor::after{
       content:"";
       position:absolute;
-      left:-10px; top:-2px;
+      left:-5px; top:-1px;
       width:0; height:0;
-
-      /* inner highlight triangle */
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid rgba(255,255,255,.35);
-      transform: translateY(2px) scale(.78);
-      filter: blur(.2px);
-      opacity:.9;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 16px solid rgba(255,255,255,.40);
+      transform: translateY(2px) scale(.72);
+      opacity:.85;
     }
 
-    .cursor-ring{
+    /* blue tail behind arrow */
+    .cursor-tail{
       position:fixed;
       left:0; top:0;
-      width:44px; height:44px;
-      border-radius:50%;
+      width:34px;
+      height:10px;
       pointer-events:none;
       z-index:9998;
       transform: translate(-50%, -50%);
-      border:1px solid rgba(98,182,255,.22);
-      box-shadow: 0 0 40px rgba(98,182,255,.10);
-      backdrop-filter: blur(2px);
+      transform-origin: 0% 50%;
       mix-blend-mode: screen;
-      transition: width .12s ease, height .12s ease, border-color .12s ease;
+
+      background: linear-gradient(90deg,
+        rgba(98,182,255,.0) 0%,
+        rgba(98,182,255,.35) 35%,
+        rgba(207,238,255,.55) 70%,
+        rgba(255,255,255,.70) 100%
+      );
+
+      border-radius: 999px;
+      filter: blur(0.2px) drop-shadow(0 0 10px rgba(98,182,255,.22));
+      opacity:.85;
     }
-    .cursor--active .cursor-ring{
-      width:54px; height:54px;
-      border-color: rgba(207,238,255,.35);
+
+    .cursor--active .cursor{
+      filter:
+        drop-shadow(0 0 12px rgba(98,182,255,.70))
+        drop-shadow(0 0 36px rgba(98,182,255,.25));
+    }
+    .cursor--active .cursor-tail{
+      opacity:1;
+      filter: blur(0.15px) drop-shadow(0 0 14px rgba(98,182,255,.28));
     }
 
     .spark{
@@ -432,7 +444,7 @@
 
 <body>
   <!-- Cursor elements -->
-  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-tail" id="cursorTail"></div>
   <div class="cursor" id="cursorDot"></div>
 
   <header class="topbar reveal">
@@ -768,7 +780,6 @@
 
       <article class="card reveal">
         <div class="inner">
-          <!-- ✅ ICI: on enlève "(copier-coller)" -->
           <h2>Mini pitch</h2>
           <div class="note">
             Je suis étudiant au CESI Orléans (école d’ingénieur). J’ai travaillé sur des projets de modélisation de bases de données (MCD), de requêtes SQL complexes,
@@ -802,11 +813,12 @@
       els.forEach(el => el.classList.add("in"));
     }
 
-    // Custom cursor + powder trail
+    // Custom cursor: gaming arrow + tail + powder trail
     const dot = document.getElementById("cursorDot");
-    const ring = document.getElementById("cursorRing");
+    const tail = document.getElementById("cursorTail");
     let x = window.innerWidth/2, y = window.innerHeight/2;
-    let rx = x, ry = y;
+    let tx = x, ty = y;     // tail smoothing
+    let prevX = x, prevY = y;
 
     const clickableSel = "a, button, .btn, nav a, .chip";
     const root = document.documentElement;
@@ -831,14 +843,31 @@
       dot.style.left = x + "px";
       dot.style.top = y + "px";
 
-      if (Math.random() < 0.55) spawnSpark(x, y);
+      if (Math.random() < 0.45) spawnSpark(x, y);
     }, { passive:true });
 
     function raf(){
-      rx += (x - rx) * 0.12;
-      ry += (y - ry) * 0.12;
-      ring.style.left = rx + "px";
-      ring.style.top = ry + "px";
+      // smooth tail pos
+      tx += (x - tx) * 0.18;
+      ty += (y - ty) * 0.18;
+
+      // direction + speed
+      const dx = x - prevX;
+      const dy = y - prevY;
+      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      const speed = Math.min(22, Math.hypot(dx, dy));
+
+      // arrow points to direction
+      dot.style.transform = `translate(-50%, -50%) rotate(${angle + 90}deg)`;
+
+      // tail behind arrow
+      tail.style.left = tx + "px";
+      tail.style.top = ty + "px";
+      tail.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+      tail.style.width = (26 + speed * 1.8) + "px";
+      tail.style.opacity = 0.55 + (speed / 22) * 0.45;
+
+      prevX = x; prevY = y;
       requestAnimationFrame(raf);
     }
     raf();
@@ -850,10 +879,10 @@
       if (e.target.closest(clickableSel)) root.classList.remove("cursor--active");
     });
 
-    // On mobile
+    // Mobile: disable
     if (matchMedia("(pointer: coarse)").matches) {
       dot.style.display = "none";
-      ring.style.display = "none";
+      tail.style.display = "none";
       document.body.style.cursor = "auto";
     }
   </script>
